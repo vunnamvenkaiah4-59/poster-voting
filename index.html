@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Poster Voting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial;
+      background: #f2f2f2;
+      text-align: center;
+      padding: 20px;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 320px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      font-size: 16px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>Poster Presentation Voting</h2>
+
+<div class="container">
+  <!-- Voting -->
+  <div class="card">
+    <h3>Vote Here</h3>
+    <input id="uid" placeholder="Enter Faculty ID" />
+    <div id="buttons"></div>
+    <p id="msg"></p>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h3>Live Results</h3>
+    <ul id="results"></ul>
+  </div>
+</div>
+
+<script>
+  const posters = [
+    "Team 1","Team 2","Team 3","Team 4","Team 5",
+    "Team 6","Team 7","Team 8","Team 9","Team 10"
+  ];
+
+  const maxVotes = 10;
+
+  function loadButtons() {
+    let html = "";
+    posters.forEach(p => {
+      html += `<button onclick="vote('${p}')">${p}</button>`;
+    });
+    document.getElementById("buttons").innerHTML = html;
+  }
+
+  function vote(team) {
+    const uid = document.getElementById("uid").value.trim();
+    if (!uid) {
+      alert("Enter Faculty ID");
+      return;
+    }
+
+    let users = JSON.parse(localStorage.getItem("users") || "{}");
+    let votes = JSON.parse(localStorage.getItem("votes") || "{}");
+
+    users[uid] = users[uid] || 0;
+    if (users[uid] >= maxVotes) {
+      document.getElementById("msg").innerText =
+        "Maximum 10 votes completed for this ID";
+      return;
+    }
+
+    users[uid]++;
+    votes[team] = (votes[team] || 0) + 1;
+
+    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem("votes", JSON.stringify(votes));
+
+    document.getElementById("msg").innerText =
+      `Vote submitted (${users[uid]}/10)`;
+
+    showResults();
+  }
+
+  function showResults() {
+    let votes = JSON.parse(localStorage.getItem("votes") || "{}");
+    let html = "";
+    posters.forEach(p => {
+      html += `<li>${p}: ${votes[p] || 0}</li>`;
+    });
+    document.getElementById("results").innerHTML = html;
+  }
+
+  loadButtons();
+  showResults();
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html>
+<head>
+  <title>Poster Voting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial;
+      background: #f2f2f2;
+      text-align: center;
+      padding: 20px;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 320px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      font-size: 16px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>Poster Presentation Voting</h2>
+
+<div class="container">
+  <!-- Voting -->
+  <div class="card">
+    <h3>Vote Here</h3>
+    <input id="uid" placeholder="Enter Faculty ID" />
+    <div id="buttons"></div>
+    <p id="msg"></p>
+  </div>
+
+  <!-- Results -->
+  <div class="card">
+    <h3>Live Results</h3>
+    <ul id="results"></ul>
+  </div>
+</div>
+
+<script>
+  const posters = [
+    "Team 1","Team 2","Team 3","Team 4","Team 5",
+    "Team 6","Team 7","Team 8","Team 9","Team 10"
+  ];
+
+  const maxVotes = 10;
+
+  function loadButtons() {
+    let html = "";
+    posters.forEach(p => {
+      html += `<button onclick="vote('${p}')">${p}</button>`;
+    });
+    document.getElementById("buttons").innerHTML = html;
+  }
+
+  function vote(team) {
+    const uid = document.getElementById("uid").value.trim();
+    if (!uid) {
+      alert("Enter Faculty ID");
+      return;
+    }
+
+    let users = JSON.parse(localStorage.getItem("users") || "{}");
+    let votes = JSON.parse(localStorage.getItem("votes") || "{}");
+
+    users[uid] = users[uid] || 0;
+    if (users[uid] >= maxVotes) {
+      document.getElementById("msg").innerText =
+        "Maximum 10 votes completed for this ID";
+      return;
+    }
+
+    users[uid]++;
+    votes[team] = (votes[team] || 0) + 1;
+
+    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem("votes", JSON.stringify(votes));
+
+    document.getElementById("msg").innerText =
+      `Vote submitted (${users[uid]}/10)`;
+
+    showResults();
+  }
+
+  function showResults() {
+    let votes = JSON.parse(localStorage.getItem("votes") || "{}");
+    let html = "";
+    posters.forEach(p => {
+      html += `<li>${p}: ${votes[p] || 0}</li>`;
+    });
+    document.getElementById("results").innerHTML = html;
+  }
+
+  loadButtons();
+  showResults();
+</script>
+
+</body>
+</html>
